@@ -14,7 +14,7 @@ public class Product {
     private String imegeUrl;
 
 
-    private long generatID = 1;
+    private static long generatID = 1;
 
     public Product() {
         this.id = generatID++;
@@ -85,7 +85,6 @@ public class Product {
                 ", sizes=" + Arrays.toString(sizes) +
                 ", color='" + color + '\'' +
                 ", imegeUrl='" + imegeUrl + '\'' +
-                ", generatID=" + generatID +
                 '}';
     }
 }

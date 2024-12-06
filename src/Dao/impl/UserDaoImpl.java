@@ -12,7 +12,6 @@ public class UserDaoImpl implements UserDao {
         Database.users = Arrays.copyOf(Database.users,Database.users.length+1);
         Database.users[Database.users.length-1] = user;
     }
-
     @Override
     public User[] findAll() {
         return Database.users;

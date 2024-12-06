@@ -4,7 +4,9 @@ import Dao.UserDao;
 import Service.UserService;
 import config.Validation;
 import databasa.Database;
+import enam.Role;
 import exceptions.InvalidData;
+import exceptions.NotFoundException;
 import models.User;
 
 public class UserServiceimpl implements UserService {
@@ -12,6 +14,16 @@ public class UserServiceimpl implements UserService {
 
     public UserServiceimpl(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    @Override
+    public void savedDefaultAdmin() {
+        userDao.save(
+                new User("Admin@gmail.com",
+                        "Admin123!",
+                        "Online Shop",
+                        Role.ADMIN)
+        );
     }
 
     @Override
@@ -26,7 +38,7 @@ public class UserServiceimpl implements UserService {
                 }
             }
         }
-        if (Validation.checkPassword(user.getPassword())) {
+        if (!Validation.checkPassword(user.getPassword())) {
             throw new InvalidData("Invalid password");
         }
         userDao.save(user);
@@ -36,5 +48,20 @@ public class UserServiceimpl implements UserService {
     @Override
     public User[] findAll() {
         return Database.users;
+    }
+
+    @Override
+    public User singIn(String email, String password) {
+
+        for (User user : findAll()) {
+            if (user.getEmail().equals(email)) {
+                if (user.getPassword().equals(password)) {
+                    return user;
+
+                }
+            }
+
+        }
+        throw new NotFoundException("User not found");
     }
 }

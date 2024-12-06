@@ -14,7 +14,7 @@ public class Validation {
     }
 
     public static String passwordPattern() {
-        return "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-z])(?=.*[@#$%^&+=!]).{8,}$";
+        return "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!]).{8,}$";
     }
 }
 
