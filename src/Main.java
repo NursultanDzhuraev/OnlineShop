@@ -1,8 +1,10 @@
 import Dao.UserDao;
 import Dao.impl.ProductDaoImpl;
 import Dao.impl.UserDaoImpl;
+import Service.BasketService;
 import Service.ProductService;
 import Service.UserService;
+import Service.impl.BasketServiceImpl;
 import Service.impl.ProductServiceImpl;
 import Service.impl.UserServiceimpl;
 import config.Validation;
@@ -23,6 +25,7 @@ public class Main {
     static Scanner scanForNumber = new Scanner(System.in);
     static ProductDaoImpl productDao = new ProductDaoImpl();
     static ProductService productService = new ProductServiceImpl(productDao);
+    static BasketServiceImpl basketService = new BasketServiceImpl();
 
     public static void main(String[] args) {
         UserDao userDao = new UserDaoImpl();
@@ -87,20 +90,30 @@ public class Main {
                                 case 2 -> {
                                     System.out.println("Enter product id: ");
                                     int productId = scanForNumber.nextInt();
-                                    Product productByid = productService.getProductByid(productId);
-                                    System.out.println(productByid);
+                                    Product productById = productService.getProductByid(productId);
+                                    System.out.println(productById);
                                 }
+
                                 case 3->{
-                                    System.out.println("Enter product category: ");
+                                    System.out.print("Enter product category: ");
                                     String category = new Scanner(System.in).nextLine().toUpperCase();
                                     Product productByCategory = productService.getProductByCategory(category);
                                     System.out.println(productByCategory);
                                 }
-                                case 4->{
+                                case 4->{  System.out.println("Enter product id: ");
+                                    long productId = scanForNumber.nextInt();
+                                    basketService.addFavoriteProductId(productId);
 
                                 }
                                 case 5->{
+                                    System.out.println(Arrays.toString(basketService.allFavoriteProductId()));
 
+
+                                }
+                                case 6->{
+                                    System.out.println("Enter product id: ");
+                                    long productId = scanForNumber.nextInt();
+                                    basketService.deleteFavoriteProductId(productId);
                                 }
                                 case 7->{
                                     loop = false;
