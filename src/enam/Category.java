@@ -1,6 +1,6 @@
 package enam;
 
-public enum Type {
+public enum Category {
     MALE,
     FEMALE,
     CHILDREN;

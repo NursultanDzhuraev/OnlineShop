@@ -1,5 +1,6 @@
 package models;
 
+import enam.Category;
 import enam.Size;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ public class Product {
     private Size[] sizes;
     private String color;
     private String imegeUrl;
+    private Category[] categories;
 
 
     private static long generatID = 1;
@@ -26,6 +28,7 @@ public class Product {
         this.price = price;
         this.color = color;
         this.imegeUrl = imegeUrl;
+
     }
 
     public long getId() {
@@ -76,6 +79,14 @@ public class Product {
         this.imegeUrl = imegeUrl;
     }
 
+    public Category[] getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Category[] categories) {
+        this.categories = categories;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -85,6 +96,7 @@ public class Product {
                 ", sizes=" + Arrays.toString(sizes) +
                 ", color='" + color + '\'' +
                 ", imegeUrl='" + imegeUrl + '\'' +
+                ", categories=" + Arrays.toString(categories) +
                 '}';
     }
 }

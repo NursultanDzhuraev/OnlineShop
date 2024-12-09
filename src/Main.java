@@ -6,18 +6,19 @@ import Service.UserService;
 import Service.impl.ProductServiceImpl;
 import Service.impl.UserServiceimpl;
 import config.Validation;
+import enam.Category;
 import enam.Role;
 import enam.Size;
 import exceptions.NotFoundException;
 import models.Product;
 import models.User;
-
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
 public class Main {
+
     static Scanner scanForStr = new Scanner(System.in);
     static Scanner scanForNumber = new Scanner(System.in);
     static ProductDaoImpl productDao = new ProductDaoImpl();
@@ -28,8 +29,7 @@ public class Main {
         UserService userService = new UserServiceimpl(userDao);
 
         userService.savedDefaultAdmin();
-        Size[] sizes = Size.values();
-        System.out.println(Arrays.toString(sizes));
+
         User current = null;
         outerLoop:
         while (true) {
@@ -67,20 +67,53 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                     if (current.getRole().equals(Role.CLIENT)) {
-                        System.out.println("""
-                                
-                                """);
-                        switch (checkValidCommand()) {
+                        boolean loop = true;
+                        while (loop) {
+                            System.out.println("""
+                                    1: getAllProduct
+                                    2: getProductById
+                                    3: getProductByCategory
+                                    4: addFavoriteProductId
+                                    5: allFavoriteProductId
+                                    6: updateFavoriteProductId
+                                    7: Exit
+                                   
+                                    """);
+                            switch (checkValidCommand()) {
+                                case 1 -> {
+                                    Product[] allProduct = productDao.findAllProduct();
+                                    System.out.println(Arrays.toString(allProduct));
+                                }
+                                case 2 -> {
+                                    System.out.println("Enter product id: ");
+                                    int productId = scanForNumber.nextInt();
+                                    Product productByid = productService.getProductByid(productId);
+                                    System.out.println(productByid);
+                                }
+                                case 3->{
+                                    System.out.println("Enter product category: ");
+                                    String category = new Scanner(System.in).nextLine().toUpperCase();
+                                    Product productByCategory = productService.getProductByCategory(category);
+                                    System.out.println(productByCategory);
+                                }
+                                case 4->{
 
+                                }
+                                case 5->{
 
+                                }
+                                case 7->{
+                                    loop = false;
+                                }
+
+                            }
                         }
-
 
                     } else if (current.getRole().equals(Role.ADMIN)) {
                         boolean loop = true;
                         while (loop) {
                             System.out.println("""
-                                  
+                                    
                                     1: addProduct
                                     2: getAllProduct
                                     3: updateProduct
@@ -101,22 +134,23 @@ public class Main {
                                     int productId = scanForNumber.nextInt();
                                     productService.updateProduct(productId, addProductScan(new Product()));
                                 }
-                                case 4 ->{
+                                case 4 -> {
                                     System.out.println("Enter product id: ");
                                     int productId = scanForNumber.nextInt();
                                     productService.deleteProduct(productId);
                                 }
-                                case 5->{
+                                case 5 -> {
                                     loop = false;
-                                }default -> {
+                                }
+                                default -> {
                                     System.out.println("default number ");
                                 }
 
 
                             }
                         }
-                        } else{
-                            System.out.println("There is no such role");
+                    } else {
+                        System.out.println("There is no such role");
                     }
                 }
                 case 3 -> {
@@ -176,17 +210,21 @@ public class Main {
         product.setColor(scanForStr.nextLine());
         System.out.print("Enter product imegeUrl: ");
         product.setImegeUrl(scanForStr.nextLine());
-
-        System.out.print("Enter product size: ");
+        System.out.print("Enter product size (XXS,XS,S,M,XL,XXL): ");
         String sizeFromScan = scanForStr.nextLine();
 
         Size[] sizes = Size.values();
         for (Size size : sizes) {
-//            if (sizeFromScan.equals(size.name())) {
-//                product.setSizes(new Size[]{Size.valueOf(sizeFromScan.toUpperCase())});
-//            }
-            if (sizeFromScan.toUpperCase().equalsIgnoreCase(size.toString())){
+            if (sizeFromScan.toUpperCase().equalsIgnoreCase(size.toString())) {
                 product.setSizes(new Size[]{size});
+            }
+        }
+        System.out.print("Enter product category( MALE,FEMALE,CHILDREN): ");
+        String categoryFromScan = scanForStr.nextLine();
+        Category[] categories = Category.values();
+        for (Category category : categories) {
+            if (categoryFromScan.toUpperCase().equalsIgnoreCase(category.toString())){
+                product.setCategories(new Category[]{category});
             }
         }
 

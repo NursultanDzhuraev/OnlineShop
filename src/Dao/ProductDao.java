@@ -1,10 +1,17 @@
 package Dao;
 
+import enam.Category;
 import models.Product;
 
 public interface ProductDao {
     void save(Product product);
+
     Product[] findAllProduct();
-    void update(long id,Product newProduct);
-    public String deleteProduct(long id);
+
+    Product[] update(long id, Product newProduct);
+
+    Product[] deleteProduct(long id);
+
+    Product[] getProductById(long id);
+    Product[] getProductByCategory();
 }

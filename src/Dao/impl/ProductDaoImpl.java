@@ -2,6 +2,7 @@ package Dao.impl;
 
 import Dao.ProductDao;
 import databasa.Database;
+import enam.Category;
 import models.Product;
 
 import java.util.Arrays;
@@ -10,8 +11,8 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void save(Product product) {
-        Database.products = Arrays.copyOf(Database.products,Database.products.length+1);
-        Database.products[Database.products.length-1] = product;
+        Database.products = Arrays.copyOf(Database.products, Database.products.length + 1);
+        Database.products[Database.products.length - 1] = product;
         System.out.println("Successfully product");
     }
 
@@ -21,13 +22,23 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void update(long id, Product newProduct) {
-
+    public Product[] update(long id, Product newProduct) {
+        return Database.products;
     }
 
     @Override
-    public String deleteProduct(long id) {
-        return "delet";
+    public Product[] deleteProduct(long id) {
+        return Database.products;
+    }
+
+    @Override
+    public Product[] getProductById(long id) {
+       return Database.products;
+    }
+
+    @Override
+    public Product[] getProductByCategory() {
+        return Database.products;
     }
 
 
